@@ -349,7 +349,7 @@
 
         // --- GANTI URL INI ---
         const n8nWebhookUrl =
-          "https://n8n-main.sliplane.app/webhook/af92b919-fcfb-4a4e-93fb-44b831d73450";
+          "https://norimax.app.n8n.cloud/webhook-test/e-bridge-interview";
 
         // --- Elemen DOM ---
         const pages = {
@@ -384,7 +384,28 @@
           // LOGGING: Menampilkan data pengguna yang terbaca
           console.log("[INIT] Data pengguna dari URL:", userData);
 
-          startBtn.addEventListener("click", () => showPage("survey"));
+          // startBtn.addEventListener("click", () => showPage("survey"));
+          // Listener untuk tombol "Mulai" sekarang dengan pengecekan
+          startBtn.addEventListener("click", () => {
+            console.log(
+              '%c[AUTH] Tombol "Mulai" diklik, memeriksa parameter URL...',
+              "font-weight: bold; color: #ff9800;"
+            );
+
+            // Pengecekan adanya parameter id dan email
+            if (userData.id && userData.email) {
+              // Jika parameter lengkap, lanjutkan ke survei
+              console.log("[AUTH] Sukses: ID dan Email ditemukan.", userData);
+              showPage("survey");
+            } else {
+              // Jika parameter tidak lengkap, tampilkan error
+              console.error(
+                "[AUTH] Gagal: ID dan/atau Email tidak ditemukan di URL."
+              );
+              alert("Authentication Error.");
+            }
+          });
+
           q1Radios.forEach((radio) =>
             radio.addEventListener("change", handleLocationChange)
           );
