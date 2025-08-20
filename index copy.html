@@ -4,10 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI Hearing Prototype</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-    />
     <style>
       /* CSS tidak berubah, jadi saya singkat untuk kejelasan */
       body {
@@ -205,23 +201,19 @@
         <h1>アンケート</h1>
         <form id="survey-form">
           <div id="question1">
-            <h2>1. 今どこに住んでいますか？</h2>
+            <h2>1. 今どこに住んでいますか？?</h2>
             <div class="survey-options">
               <label
-                ><input
-                  type="radio"
-                  name="location"
-                  value="jepang"
-                  required
-                />日本</label
-              >
-              <label
+                ><input type="radio" name="location" value="jepang" required />
+                日本</label
+              ><label
                 ><input
                   type="radio"
                   name="location"
                   value="indonesia"
                   required
-                />インドネシア</label
+                />
+                インドネシア</label
               >
             </div>
           </div>
@@ -234,31 +226,24 @@
                   name="status"
                   value="ginou_jisshu"
                   required
-                />技能実習中</label
-              >
-              <label
+                />
+                技能実習中</label
+              ><label
                 ><input
                   type="radio"
                   name="status"
                   value="tokutei_ginou"
                   required
-                />特定技能で働いている</label
-              >
-              <label
+                />
+                特定技能で働いている</label
+              ><label
                 ><input
                   type="radio"
                   name="status"
                   value="ryugaku_intern"
                   required
-                />留学やインターンシップで滞在中</label
-              >
-              <label
-                ><input
-                  type="radio"
-                  name="status"
-                  value="lainnya"
-                  required
-                />上記以外（またはよくわからない）</label
+                />
+                留学やインターンシップで滞在中</label
               >
             </div>
             <div id="options-indonesia" class="survey-options hidden">
@@ -268,47 +253,40 @@
                   name="status"
                   value="moto_ginou_jisshu"
                   required
-                />元技能実習生</label
-              >
-              <label
+                />
+                元技能実習生</label
+              ><label
                 ><input
                   type="radio"
                   name="status"
                   value="moto_tokutei_ginou"
                   required
-                />以前に特定技能で働いていた</label
-              >
-              <label
+                />
+                以前に特定技能で働いていた</label
+              ><label
                 ><input
                   type="radio"
                   name="status"
                   value="belum_pernah_kerja_jp"
                   required
-                />日本で働いたことがない</label
-              >
-              <label
+                />
+                日本で働いたことがない</label
+              ><label
                 ><input
                   type="radio"
                   name="status"
                   value="moto_ryugaku_intern"
                   required
-                />以前に留学やインターンで日本に滞在</label
-              >
-              <label
+                />
+                以前に留学やインターンで日本に滞在</label
+              ><label
                 ><input
                   type="radio"
                   name="status"
                   value="berhenti_magang"
                   required
-                />技能実習を途中でやめた</label
-              >
-              <label
-                ><input
-                  type="radio"
-                  name="status"
-                  value="lainnya"
-                  required
-                />上記以外（またはよくわからない）</label
+                />
+                技能実習を途中でやめた</label
               >
             </div>
           </div>
@@ -327,9 +305,37 @@
               autocomplete="off"
             />
             <button type="button" id="mic-btn" class="chat-button">
-              <i class="bi bi-mic-fill"></i>
-            </button>
-            <button type="submit" id="send-btn">➤</button>
+              <svg
+                width="64px"
+                height="64px"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                stroke="#ffffff"
+              >
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M14.75 7.33303V11.222C14.7728 12.4877 13.7657 13.5325 12.5 13.556C11.2343 13.5325 10.2271 12.4877 10.25 11.222V7.33303C10.2277 6.06772 11.2347 5.02357 12.5 5.00003C13.7653 5.02357 14.7723 6.06772 14.75 7.33303Z"
+                    stroke="#ffffff"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                  <path
+                    d="M8.46233 13.8534C8.13618 13.5981 7.66478 13.6555 7.40945 13.9817C7.15411 14.3078 7.21152 14.7792 7.53767 15.0346L8.46233 13.8534ZM17.4623 15.0346C17.7885 14.7792 17.8459 14.3078 17.5906 13.9817C17.3352 13.6555 16.8638 13.5981 16.5377 13.8534L17.4623 15.0346ZM13.25 16C13.25 15.5858 12.9142 15.25 12.5 15.25C12.0858 15.25 11.75 15.5858 11.75 16H13.25ZM11.75 19C11.75 19.4142 12.0858 19.75 12.5 19.75C12.9142 19.75 13.25 19.4142 13.25 19H11.75ZM7.53767 15.0346C10.4524 17.3164 14.5476 17.3164 17.4623 15.0346L16.5377 13.8534C14.1661 15.7101 10.8339 15.7101 8.46233 13.8534L7.53767 15.0346ZM11.75 16V19H13.25V16H11.75Z"
+                    fill="#ffffff"
+                  ></path>
+                </g>
+              </svg></button
+            ><button type="submit" id="send-btn">➤</button>
           </form>
         </div>
       </div>
@@ -337,13 +343,15 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
+        // --- State Aplikasi ---
         let userData = { email: null, id: null };
-        // PERUBAHAN 5: Ganti nama variabel
-        let patternId = null;
+        let assistantId = null;
 
+        // --- GANTI URL INI ---
         const n8nWebhookUrl =
           "https://norimax.app.n8n.cloud/webhook-test/e-bridge-interview";
-        // "https://n8n-main.sliplane.app/webhook-test/af92b919-fcfb-4a4e-93fb-44b831d73450";
+
+        // --- Elemen DOM ---
         const pages = {
           welcome: document.getElementById("welcome-page"),
           survey: document.getElementById("survey-page"),
@@ -363,7 +371,9 @@
         const userInput = document.getElementById("user-input");
         const micBtn = document.getElementById("mic-btn");
 
+        // --- Inisialisasi Aplikasi ---
         function initializeApp() {
+          // LOGGING: Memulai aplikasi dan membaca parameter URL
           console.log(
             "%c[INIT] Aplikasi dimulai.",
             "font-weight: bold; color: green;"
@@ -371,17 +381,24 @@
           const urlParams = new URLSearchParams(window.location.search);
           userData.email = urlParams.get("email");
           userData.id = urlParams.get("id");
+          // LOGGING: Menampilkan data pengguna yang terbaca
           console.log("[INIT] Data pengguna dari URL:", userData);
 
+          // startBtn.addEventListener("click", () => showPage("survey"));
+          // Listener untuk tombol "Mulai" sekarang dengan pengecekan
           startBtn.addEventListener("click", () => {
             console.log(
               '%c[AUTH] Tombol "Mulai" diklik, memeriksa parameter URL...',
               "font-weight: bold; color: #ff9800;"
             );
+
+            // Pengecekan adanya parameter id dan email
             if (userData.id && userData.email) {
+              // Jika parameter lengkap, lanjutkan ke survei
               console.log("[AUTH] Sukses: ID dan Email ditemukan.", userData);
               showPage("survey");
             } else {
+              // Jika parameter tidak lengkap, tampilkan error
               console.error(
                 "[AUTH] Gagal: ID dan/atau Email tidak ditemukan di URL."
               );
@@ -397,7 +414,9 @@
           showPage("welcome");
         }
 
+        // --- Fungsi Pengelola Halaman ---
         function showPage(pageName) {
+          // LOGGING: Menampilkan halaman
           console.log(
             `%c[PAGE] Menampilkan halaman: ${pageName}`,
             "font-weight: bold; color: purple;"
@@ -406,21 +425,26 @@
           pages[pageName].classList.remove("hidden");
         }
 
+        // --- Fungsi Logika Survei ---
         function handleLocationChange(event) {
           const location = event.target.value;
           q2Container.classList.remove("hidden");
+
           if (location === "jepang") {
             q2Title.textContent = "2. 日本では何をしていますか？";
             q2Options.japan.classList.remove("hidden");
             q2Options.indonesia.classList.add("hidden");
+            document
+              .querySelectorAll('input[name="status"]')
+              .forEach((r) => (r.checked = r.closest(".hidden") !== null));
           } else if (location === "indonesia") {
             q2Title.textContent = "2. 今あなたのステータスは何ですか？";
             q2Options.indonesia.classList.remove("hidden");
             q2Options.japan.classList.add("hidden");
+            document
+              .querySelectorAll('input[name="status"]')
+              .forEach((r) => (r.checked = r.closest(".hidden") !== null));
           }
-          document
-            .querySelectorAll('input[name="status"]')
-            .forEach((r) => (r.checked = false));
         }
 
         async function handleSurveySubmit(event) {
@@ -429,24 +453,27 @@
           const location = formData.get("location");
           const status = formData.get("status");
 
+          // LOGGING: Data dari form survei
+          console.log(
+            "%c[SURVEY] Survei disubmit.",
+            "font-weight: bold; color: orange;"
+          );
+          console.log("[SURVEY] Jawaban: ", { location, status });
+
           if (!location || !status) {
-            alert("すべての質問にお答えください。");
+            alert("Harap lengkapi semua pertanyaan.");
             return;
           }
 
-          // PERUBAHAN 5: Menggunakan patternId
-          patternId = getPatternId(location, status);
-          console.log(`[SURVEY] Pattern ID yang ditentukan: ${patternId}`);
+          assistantId = getAssistantId(location, status);
+          // LOGGING: ID Asisten yang ditentukan
+          console.log(`[SURVEY] ID Asisten yang ditentukan: ${assistantId}`);
 
           showPage("chat");
           await triggerFirstAIMessage();
         }
 
-        // PERUBAHAN 2 & 5: Fungsi diubah untuk mapping baru dan nama baru
-        function getPatternId(location, status) {
-          // Jika memilih 'lainnya', langsung return 9
-          if (status === "lainnya") return 9;
-
+        function getAssistantId(location, status) {
           if (location === "jepang") {
             if (status === "ginou_jisshu") return 1;
             if (status === "tokutei_ginou") return 2;
@@ -458,7 +485,7 @@
             if (status === "moto_tokutei_ginou") return 7;
             if (status === "berhenti_magang") return 8;
           }
-          return 9; // Fallback default
+          return 9;
         }
 
         // =====================================================================
@@ -583,48 +610,73 @@
         // ## AKHIR DARI KODE SPEECH RECOGNITION ANDA ##
         // =====================================================================
 
-        async function processN8nResponse(response, isInitial = false) {
+        // --- Fungsi Fungsionalitas Chat ---
+
+        // Fungsi untuk memproses respons dari n8n, baik untuk pesan pertama maupun lanjutan
+        async function processN8nResponse(response) {
+          // LOGGING: Menampilkan objek respons mentah dari fetch
           console.log(
             "%c[FETCH] Menerima respons mentah dari n8n.",
             "font-weight: bold; color: #03a9f4;"
           );
+          console.log(
+            "[FETCH] Status Respons:",
+            response.status,
+            response.statusText
+          );
+          console.log("[FETCH] Objek Respons:", response);
 
-          // PERUBAHAN 3: Saat pesan pertama, hapus pesan default & typing indicator
-          if (isInitial) {
-            const defaultMessage = document.getElementById(
-              "default-system-message"
-            );
-            if (defaultMessage) defaultMessage.remove();
-            setTyping(false); // Hapus indikator loading awal
+          // Clone respons agar bisa dibaca dua kali (sebagai teks dan json)
+          const responseClone = response.clone();
+
+          // LOGGING: Membaca respons sebagai teks mentah untuk debugging
+          const rawText = await responseClone.text();
+          console.log("[FETCH] Respons dalam bentuk Teks Mentah:", rawText);
+
+          if (rawText.trim() === "") {
+            throw new Error("Respons dari server kosong.");
           }
 
+          // Mencoba mem-parsing respons sebagai JSON
           const data = await response.json();
-          console.log("[FETCH] Respons setelah di-parse menjadi JSON:", data);
+          // LOGGING: Menampilkan data setelah di-parse sebagai JSON
+          console.log(
+            "[FETCH] Respons setelah di-parse menjadi JSON (variabel `data`):",
+            data
+          );
 
-          // PERUBAHAN 4: Loop untuk menampilkan reply1, reply2, reply3
-          const replies = [data.reply1, data.reply2, data.reply3];
-
-          for (const [index, replyText] of replies.entries()) {
-            // Tampilkan hanya jika ada teks balasan
-            if (replyText) {
-              // Tambahkan delay kecil antar pesan agar terlihat lebih natural
-              await new Promise((resolve) => setTimeout(resolve, 600));
-              addMessage(replyText, "ai");
-            }
+          // LOGGING: Menganalisa nilai yang akan dikirim ke addMessage
+          let messageContent;
+          if (Array.isArray(data) && data.length > 0) {
+            console.log(
+              "[ANALYSIS] Data adalah sebuah Array. Mencoba mengakses data[0].reply."
+            );
+            messageContent = data[0].reply;
+          } else if (data && typeof data === "object" && data.reply) {
+            console.log(
+              "[ANALYSIS] Data adalah sebuah Objek. Mencoba mengakses data.reply."
+            );
+            messageContent = data.reply;
+          } else {
+            console.log(
+              "[ANALYSIS] Format data tidak dikenali. Tidak dapat menemukan .reply atau [0].reply."
+            );
+            messageContent = "Error: Format balasan dari AI tidak dikenali.";
           }
+
+          console.log(
+            `[ANALYSIS] Nilai yang akan dikirim ke addMessage: "${messageContent}"`
+          );
+
+          setTyping(false);
+          addMessage(messageContent, "ai");
         }
 
         async function triggerFirstAIMessage() {
+          // LOGGING: Memulai proses untuk mendapatkan pesan pertama
           console.log(
             "%c[TRIGGER] Meminta pesan pertama dari AI...",
             "font-weight: bold; color: teal;"
-          );
-
-          // PERUBAHAN 3: Tampilkan pesan default dan indikator loading
-          addMessage(
-            "現在、ユーザーの情報を初期化しています。少々お待ちください。",
-            "ai",
-            "default-system-message"
           );
           setTyping(true);
 
@@ -632,8 +684,9 @@
             isInitialMessage: true,
             email: userData.email,
             userId: userData.id,
-            patternId: patternId, // PERUBAHAN 5: Menggunakan patternId
+            assistantId: assistantId,
           };
+          // LOGGING: Menampilkan payload yang akan dikirim
           console.log("[TRIGGER] Payload yang dikirim:", payload);
 
           try {
@@ -642,10 +695,13 @@
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(payload),
             });
+
             if (!response.ok)
               throw new Error(`HTTP error! status: ${response.status}`);
-            await processN8nResponse(response, true); // Kirim flag `true` untuk pesan inisial
+
+            await processN8nResponse(response);
           } catch (error) {
+            // LOGGING: Menampilkan error jika terjadi
             console.error(
               "%c[TRIGGER] Gagal mendapatkan pesan pertama:",
               "font-weight: bold; color: red;",
@@ -653,7 +709,7 @@
             );
             setTyping(false);
             addMessage(
-              "申し訳ありませんが、AIへの接続に失敗しました。後でもう一度お試しください。",
+              "Maaf, gagal terhubung dengan asisten AI. Coba muat ulang halaman.",
               "ai"
             );
           }
@@ -666,14 +722,21 @@
 
           addMessage(userText, "user");
           userInput.value = "";
+
+          // LOGGING: Memulai proses mengirim pesan chat
+          console.log(
+            "%c[CHAT] Mengirim pesan ke AI...",
+            "font-weight: bold; color: blue;"
+          );
           setTyping(true);
 
           const payload = {
             message: userText,
             email: userData.email,
             userId: userData.id,
-            patternId: patternId, // PERUBAHAN 5: Menggunakan patternId
+            assistantId: assistantId,
           };
+          // LOGGING: Menampilkan payload yang akan dikirim
           console.log("[CHAT] Payload yang dikirim:", payload);
 
           try {
@@ -682,13 +745,13 @@
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(payload),
             });
+
             if (!response.ok)
               throw new Error(`HTTP error! status: ${response.status}`);
 
-            // Hapus indikator setelah fetch selesai, sebelum memproses balasan
-            setTyping(false);
             await processN8nResponse(response);
           } catch (error) {
+            // LOGGING: Menampilkan error jika terjadi
             console.error(
               "%c[CHAT] Gagal mendapatkan balasan:",
               "font-weight: bold; color: red;",
@@ -696,25 +759,30 @@
             );
             setTyping(false);
             addMessage(
-              "申し訳ありませんが、AIへの接続中にエラーが発生しました。後でもう一度お試しください。",
+              "Maaf, terjadi kesalahan saat menghubungi AI. Coba lagi nanti.",
               "ai"
             );
           }
         }
 
-        function addMessage(text, sender, customId = null) {
+        function addMessage(text, sender) {
+          // LOGGING: Menambahkan pesan ke UI
+          console.log(
+            `%c[UI] Menambahkan pesan ke chat box. Sender: ${sender}, Text: "${text}"`,
+            "font-weight: bold; color: #4caf50;"
+          );
+
+          // Pencegahan agar tidak menampilkan 'undefined'
           if (typeof text === "undefined" || text === null) {
             console.error(
-              "[UI] Error: Mencoba menambahkan teks 'undefined' atau 'null' ke UI."
+              "[UI] Error: Mencoba menambahkan teks 'undefined' atau 'null' ke UI. Proses dihentikan."
             );
             return;
           }
+
           const messageElement = document.createElement("div");
           messageElement.classList.add("message", `${sender}-message`);
           messageElement.textContent = text;
-          if (customId) {
-            messageElement.id = customId;
-          }
           chatBox.appendChild(messageElement);
           chatBox.scrollTop = chatBox.scrollHeight;
         }
@@ -732,6 +800,8 @@
             indicator.remove();
           }
         }
+
+        // --- Jalankan Aplikasi ---
         initializeApp();
       });
     </script>
