@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Hearing Prototype</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <style>
+      /* CSS tidak berubah, jadi saya singkat untuk kejelasan */
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        background-color: #f0f2f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        color: #333;
+      }
+      .container {
+        width: 400px;
+        height: 600px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .page {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 24px;
+        overflow: auto;
+        box-sizing: border-box;
+      }
+      .hidden {
+        display: none !important;
+      }
+      h1 {
+        color: #0d9488;
+        text-align: center;
+      }
+      h2 {
+        font-size: 1.1em;
+        color: #111;
+        margin-top: 20px;
+        margin-bottom: 10px;
+      }
+      .button {
+        background-color: #0d9488;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 20px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        text-align: center;
+        margin-top: auto;
+      }
+      .button:hover {
+        background-color: #0f766e;
+      }
+      .survey-options label {
+        display: block;
+        background-color: #f8f8f8;
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        cursor: pointer;
+        border: 1px solid #eee;
+      }
+      .survey-options label:has(input:checked) {
+        background-color: #dcf8c6;
+        border-color: #0d9488;
+      }
+      .survey-options input {
+        margin-right: 10px;
+      }
+      .chat-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        padding: 0;
+      }
+      .chat-header {
+        padding: 16px;
+        background-color: #0d9488;
+        color: #fff;
+        font-weight: 700;
+        text-align: center;
+        flex-shrink: 0;
+      }
+      .chat-box {
+        flex-grow: 1;
+        padding: 20px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        background-color: #f0f2f5;
+      }
+      .message {
+        padding: 10px 15px;
+        border-radius: 18px;
+        max-width: 75%;
+        line-height: 1.4;
+      }
+      .user-message {
+        background-color: #dcf8c6;
+        align-self: flex-end;
+        border-bottom-right-radius: 4px;
+      }
+      .ai-message {
+        background-color: #fff;
+        align-self: flex-start;
+        border-bottom-left-radius: 4px;
+      }
+      .typing-indicator {
+        align-self: flex-start;
+        display: flex;
+        gap: 5px;
+        padding: 10px 15px;
+      }
+      .typing-indicator span {
+        width: 8px;
+        height: 8px;
+        background-color: #b0b0b0;
+        border-radius: 50%;
+        animation: bounce 1.4s infinite ease-in-out both;
+      }
+      .typing-indicator span:nth-child(1) {
+        animation-delay: -0.32s;
+      }
+      .typing-indicator span:nth-child(2) {
+        animation-delay: -0.16s;
+      }
+      @keyframes bounce {
+        0%,
+        80%,
+        100% {
+          transform: scale(0);
+        }
+        40% {
+          transform: scale(1);
+        }
+      }
+      .chat-form {
+        display: flex;
+        padding: 10px;
+        border-top: 1px solid #e0e0e0;
+        background-color: #fff;
+        flex-shrink: 0;
+      }
+      #user-input {
+        flex-grow: 1;
+        border: 1px solid #ccc;
+        border-radius: 18px;
+        padding: 10px 15px;
+        font-size: 16px;
+        outline: none;
+      }
+      #user-input:focus {
+        border-color: #0d9488;
+      }
+      #send-btn,
+      #mic-btn {
+        background-color: #0d9488;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        margin-left: 10px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+      }
+      #send-btn:hover {
+        background-color: #0f766e;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="welcome-page" class="page">
+        <h1>AIヒアリングへようこそ</h1>
+        <p style="text-align: center">
+          AIがあなたについて深掘りしますので覚悟をしてくださいね！
+        </p>
+        <button id="start-btn" class="button">スタート</button>
+      </div>
+      <div id="survey-page" class="page hidden">
+        <h1>アンケート</h1>
+        <form id="survey-form">
+          <div id="question1">
+            <h2>1. 今どこに住んでいますか？</h2>
+            <div class="survey-options">
+              <label
+                ><input
+                  type="radio"
+                  name="location"
+                  value="jepang"
+                  required
+                />日本</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="location"
+                  value="indonesia"
+                  required
+                />インドネシア</label
+              >
+            </div>
+          </div>
+          <div id="question2" class="hidden">
+            <h2 id="question2-title"></h2>
+            <div id="options-japan" class="survey-options hidden">
+              <label
+                ><input
+                  type="radio"
+                  name="status"
+                  value="ginou_jisshu"
+                  required
+                />技能実習中</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="status"
+                  value="tokutei_ginou"
+                  required
+                />特定技能で働いている</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="status"
+                  value="ryugaku_intern"
+                  required
+                />留学やインターンシップで滞在中</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="status"
+                  value="lainnya"
+                  required
+                />上記以外（またはよくわからない）</label
+              >
+            </div>
+            <div id="options-indonesia" class="survey-options hidden">
+              <label
+                ><input
+                  type="radio"
+                  name="status"
+                  value="moto_ginou_jisshu"
+                  required
+                />元技能実習生</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="status"
+                  value="moto_tokutei_ginou"
+                  required
+                />以前に特定技能で働いていた</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="status"
+                  value="belum_pernah_kerja_jp"
+                  required
+                />日本で働いたことがない</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="status"
+                  value="moto_ryugaku_intern"
+                  required
+                />以前に留学やインターンで日本に滞在</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="status"
+                  value="berhenti_magang"
+                  required
+                />技能実習を途中でやめた</label
+              >
+              <label
+                ><input
+                  type="radio"
+                  name="status"
+                  value="lainnya"
+                  required
+                />上記以外（またはよくわからない）</label
+              >
+            </div>
+          </div>
+          <button type="submit" class="button">チャットに続く</button>
+        </form>
+      </div>
+      <div id="chat-page" class="page hidden">
+        <div class="chat-container">
+          <div class="chat-header">Chat with AI Assistant</div>
+          <div id="chat-box" class="chat-box"></div>
+          <form id="chat-form" class="chat-form">
+            <input
+              type="text"
+              id="user-input"
+              placeholder="メッセージを入力…"
+              autocomplete="off"
+            />
+            <button type="button" id="mic-btn" class="chat-button">
+              <i class="bi bi-mic-fill"></i>
+            </button>
+            <button type="submit" id="send-btn">➤</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        let userData = { email: null, id: null };
+        // PERUBAHAN 5: Ganti nama variabel
+        let patternId = null;
+
+        const n8nWebhookUrl =
+          "https://norimax.app.n8n.cloud/webhook-test/e-bridge-interview";
+        // "https://n8n-main.sliplane.app/webhook-test/af92b919-fcfb-4a4e-93fb-44b831d73450";
+        const pages = {
+          welcome: document.getElementById("welcome-page"),
+          survey: document.getElementById("survey-page"),
+          chat: document.getElementById("chat-page"),
+        };
+        const startBtn = document.getElementById("start-btn");
+        const surveyForm = document.getElementById("survey-form");
+        const q1Radios = document.querySelectorAll('input[name="location"]');
+        const q2Container = document.getElementById("question2");
+        const q2Title = document.getElementById("question2-title");
+        const q2Options = {
+          japan: document.getElementById("options-japan"),
+          indonesia: document.getElementById("options-indonesia"),
+        };
+        const chatBox = document.getElementById("chat-box");
+        const chatForm = document.getElementById("chat-form");
+        const userInput = document.getElementById("user-input");
+        const micBtn = document.getElementById("mic-btn");
+
+        function initializeApp() {
+          console.log(
+            "%c[INIT] Aplikasi dimulai.",
+            "font-weight: bold; color: green;"
+          );
+          const urlParams = new URLSearchParams(window.location.search);
+          userData.email = urlParams.get("email");
+          userData.id = urlParams.get("id");
+          console.log("[INIT] Data pengguna dari URL:", userData);
+
+          startBtn.addEventListener("click", () => {
+            console.log(
+              '%c[AUTH] Tombol "Mulai" diklik, memeriksa parameter URL...',
+              "font-weight: bold; color: #ff9800;"
+            );
+            if (userData.id && userData.email) {
+              console.log("[AUTH] Sukses: ID dan Email ditemukan.", userData);
+              showPage("survey");
+            } else {
+              console.error(
+                "[AUTH] Gagal: ID dan/atau Email tidak ditemukan di URL."
+              );
+              alert("Authentication Error.");
+            }
+          });
+
+          q1Radios.forEach((radio) =>
+            radio.addEventListener("change", handleLocationChange)
+          );
+          surveyForm.addEventListener("submit", handleSurveySubmit);
+          chatForm.addEventListener("submit", handleChatSubmit);
+          showPage("welcome");
+        }
+
+        function showPage(pageName) {
+          console.log(
+            `%c[PAGE] Menampilkan halaman: ${pageName}`,
+            "font-weight: bold; color: purple;"
+          );
+          Object.values(pages).forEach((page) => page.classList.add("hidden"));
+          pages[pageName].classList.remove("hidden");
+        }
+
+        function handleLocationChange(event) {
+          const location = event.target.value;
+          q2Container.classList.remove("hidden");
+          if (location === "jepang") {
+            q2Title.textContent = "2. 日本では何をしていますか？";
+            q2Options.japan.classList.remove("hidden");
+            q2Options.indonesia.classList.add("hidden");
+          } else if (location === "indonesia") {
+            q2Title.textContent = "2. 今あなたのステータスは何ですか？";
+            q2Options.indonesia.classList.remove("hidden");
+            q2Options.japan.classList.add("hidden");
+          }
+          document
+            .querySelectorAll('input[name="status"]')
+            .forEach((r) => (r.checked = false));
+        }
+
+        async function handleSurveySubmit(event) {
+          event.preventDefault();
+          const formData = new FormData(surveyForm);
+          const location = formData.get("location");
+          const status = formData.get("status");
+
+          if (!location || !status) {
+            alert("すべての質問にお答えください。");
+            return;
+          }
+
+          // PERUBAHAN 5: Menggunakan patternId
+          patternId = getPatternId(location, status);
+          console.log(`[SURVEY] Pattern ID yang ditentukan: ${patternId}`);
+
+          showPage("chat");
+          await triggerFirstAIMessage();
+        }
+
+        // PERUBAHAN 2 & 5: Fungsi diubah untuk mapping baru dan nama baru
+        function getPatternId(location, status) {
+          // Jika memilih 'lainnya', langsung return 9
+          if (status === "lainnya") return 9;
+
+          if (location === "jepang") {
+            if (status === "ginou_jisshu") return 1;
+            if (status === "tokutei_ginou") return 2;
+            if (status === "ryugaku_intern") return 3;
+          } else if (location === "indonesia") {
+            if (status === "moto_ginou_jisshu") return 4;
+            if (status === "belum_pernah_kerja_jp") return 5;
+            if (status === "moto_ryugaku_intern") return 6;
+            if (status === "moto_tokutei_ginou") return 7;
+            if (status === "berhenti_magang") return 8;
+          }
+          return 9; // Fallback default
+        }
+
+        // =====================================================================
+        // ## AWAL DARI KODE SPEECH RECOGNITION ANDA YANG DIINTEGRASIKAN ##
+        // =====================================================================
+
+        var tspSocket = (function () {
+          return {
+            grantPermission: function (lang) {
+              grantPermissionF(lang || "ja-JP"); // Default Jepang
+            },
+            stopRecording: function () {
+              stopRecordingF();
+            },
+            sendText: function () {
+              sendRecording();
+            },
+          };
+        })();
+
+        var recognizing = false;
+        var speech;
+
+        function getRecognizer() {
+          return window.SpeechRecognition
+            ? new SpeechRecognition()
+            : window.webkitSpeechRecognition
+            ? new webkitSpeechRecognition()
+            : null;
+        }
+
+        function reset() {
+          recognizing = false;
+          if (speech) speech.start();
+        }
+
+        speech = getRecognizer();
+        if (!speech) {
+          console.log("Browser tidak mendukung SpeechRecognition!");
+          micBtn.style.display = "none"; // Sembunyikan tombol mic jika tidak didukung
+        } else {
+          // -- konfigurasi dasar dari kode Anda --
+          speech.continuous = true;
+          speech.interimResults = true;
+
+          speech.onstart = function () {
+            recognizing = true;
+            console.log("Mulai merekam...");
+            micBtn.classList.add("listening");
+            userInput.placeholder = "Listening...";
+          };
+
+          speech.onresult = function (event) {
+            var interim_transcript = "";
+            var final_transcript = "";
+            for (var i = event.resultIndex; i < event.results.length; ++i) {
+              if (event.results[i].isFinal) {
+                final_transcript += event.results[i][0].transcript;
+              } else {
+                interim_transcript += event.results[i][0].transcript;
+              }
+            }
+
+            // === INI BAGIAN YANG DISESUAIKAN ===
+            // Menggabungkan teks yang sudah ada dengan hasil final
+            userInput.value =
+              userInput.value.replace(interim_transcript, "") +
+              final_transcript;
+            // Menampilkan hasil sementara di placeholder
+            userInput.placeholder = interim_transcript;
+          };
+
+          speech.onerror = function (event) {
+            console.error("Speech recognition error:", event.error);
+            if (speech) speech.stop();
+          };
+
+          speech.onend = function () {
+            recognizing = false;
+            console.log("Berhenti merekam.");
+            micBtn.classList.remove("listening");
+            userInput.placeholder = "メッセージを入力…";
+            // Tidak ada reset() di sini agar tidak otomatis mulai lagi
+          };
+        }
+
+        function grantPermissionF(lang) {
+          try {
+            if (speech) {
+              speech.lang = lang;
+              speech.start();
+            }
+          } catch (error) {
+            console.error("Gagal memulai speech recognition:", error);
+            reset();
+          }
+        }
+
+        function stopRecordingF() {
+          if (speech) {
+            recognizing = false; // Mencegah onend untuk me-restart
+            speech.stop();
+          }
+        }
+
+        // Fungsi `sendRecording` tidak kita perlukan karena pengiriman dilakukan oleh form
+        function sendRecording() {}
+
+        // --- PENGHUBUNG ANTARA UI CHAT DAN KODE SPEECH ANDA ---
+        if (speech) {
+          micBtn.addEventListener("click", function () {
+            if (recognizing) {
+              stopRecordingF();
+            } else {
+              // Menggunakan bahasa indonesia sebagai default
+              grantPermissionF("ja-JP");
+            }
+          });
+        }
+
+        // =====================================================================
+        // ## AKHIR DARI KODE SPEECH RECOGNITION ANDA ##
+        // =====================================================================
+
+        async function processN8nResponse(response, isInitial = false) {
+          console.log(
+            "%c[FETCH] Menerima respons mentah dari n8n.",
+            "font-weight: bold; color: #03a9f4;"
+          );
+
+          // PERUBAHAN 3: Saat pesan pertama, hapus pesan default & typing indicator
+          if (isInitial) {
+            const defaultMessage = document.getElementById(
+              "default-system-message"
+            );
+            if (defaultMessage) defaultMessage.remove();
+            setTyping(false); // Hapus indikator loading awal
+          }
+
+          const data = await response.json();
+          console.log("[FETCH] Respons setelah di-parse menjadi JSON:", data);
+
+          // PERUBAHAN 4: Loop untuk menampilkan reply1, reply2, reply3
+          const replies = [data.reply1, data.reply2, data.reply3];
+
+          for (const [index, replyText] of replies.entries()) {
+            // Tampilkan hanya jika ada teks balasan
+            if (replyText) {
+              // Tambahkan delay kecil antar pesan agar terlihat lebih natural
+              await new Promise((resolve) => setTimeout(resolve, 600));
+              addMessage(replyText, "ai");
+            }
+          }
+        }
+
+        async function triggerFirstAIMessage() {
+          console.log(
+            "%c[TRIGGER] Meminta pesan pertama dari AI...",
+            "font-weight: bold; color: teal;"
+          );
+
+          // PERUBAHAN 3: Tampilkan pesan default dan indikator loading
+          addMessage(
+            "現在、ユーザーの情報を初期化しています。少々お待ちください。",
+            "ai",
+            "default-system-message"
+          );
+          setTyping(true);
+
+          const payload = {
+            isInitialMessage: true,
+            email: userData.email,
+            userId: userData.id,
+            patternId: patternId, // PERUBAHAN 5: Menggunakan patternId
+          };
+          console.log("[TRIGGER] Payload yang dikirim:", payload);
+
+          try {
+            const response = await fetch(n8nWebhookUrl, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+            if (!response.ok)
+              throw new Error(`HTTP error! status: ${response.status}`);
+            await processN8nResponse(response, true); // Kirim flag `true` untuk pesan inisial
+          } catch (error) {
+            console.error(
+              "%c[TRIGGER] Gagal mendapatkan pesan pertama:",
+              "font-weight: bold; color: red;",
+              error
+            );
+            setTyping(false);
+            addMessage(
+              "申し訳ありませんが、AIへの接続に失敗しました。後でもう一度お試しください。",
+              "ai"
+            );
+          }
+        }
+
+        async function handleChatSubmit(event) {
+          event.preventDefault();
+          const userText = userInput.value.trim();
+          if (userText === "") return;
+
+          addMessage(userText, "user");
+          userInput.value = "";
+          setTyping(true);
+
+          const payload = {
+            message: userText,
+            email: userData.email,
+            userId: userData.id,
+            patternId: patternId, // PERUBAHAN 5: Menggunakan patternId
+          };
+          console.log("[CHAT] Payload yang dikirim:", payload);
+
+          try {
+            const response = await fetch(n8nWebhookUrl, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+            if (!response.ok)
+              throw new Error(`HTTP error! status: ${response.status}`);
+
+            // Hapus indikator setelah fetch selesai, sebelum memproses balasan
+            setTyping(false);
+            await processN8nResponse(response);
+          } catch (error) {
+            console.error(
+              "%c[CHAT] Gagal mendapatkan balasan:",
+              "font-weight: bold; color: red;",
+              error
+            );
+            setTyping(false);
+            addMessage(
+              "申し訳ありませんが、AIへの接続中にエラーが発生しました。後でもう一度お試しください。",
+              "ai"
+            );
+          }
+        }
+
+        function addMessage(text, sender, customId = null) {
+          if (typeof text === "undefined" || text === null) {
+            console.error(
+              "[UI] Error: Mencoba menambahkan teks 'undefined' atau 'null' ke UI."
+            );
+            return;
+          }
+          const messageElement = document.createElement("div");
+          messageElement.classList.add("message", `${sender}-message`);
+          messageElement.textContent = text;
+          if (customId) {
+            messageElement.id = customId;
+          }
+          chatBox.appendChild(messageElement);
+          chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function setTyping(isTyping) {
+          let indicator = document.getElementById("typing-indicator");
+          if (isTyping && !indicator) {
+            indicator = document.createElement("div");
+            indicator.id = "typing-indicator";
+            indicator.className = "message typing-indicator";
+            indicator.innerHTML = "<span></span><span></span><span></span>";
+            chatBox.appendChild(indicator);
+            chatBox.scrollTop = chatBox.scrollHeight;
+          } else if (!isTyping && indicator) {
+            indicator.remove();
+          }
+        }
+        initializeApp();
+      });
+    </script>
+  </body>
+</html>
