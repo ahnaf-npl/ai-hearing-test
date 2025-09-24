@@ -50,9 +50,11 @@ document.addEventListener("DOMContentLoaded", () => {
      (① リセット: チャット再開フローの start 側のみ)
   ==========================*/
   const mainWebhookUrl =
-    "https://norimax.app.n8n.cloud/webhook-test/e-bridge-interview-main"; // ←そのまま（依頼はstartのみ）
+    // "https://norimax.app.n8n.cloud/webhook-test/e-bridge-interview-main"; // ←そのまま（依頼はstartのみ）
+    "https://n8n-main.sliplane.app/webhook/e-bridge-interview-main";
   const historyCheckWebhookUrl =
-    "https://norimax.app.n8n.cloud/webhook/e-bridge-interview-start"; // ← 変更前: .../webhook-test/... → 変更後: .../webhook/...
+    // "https://norimax.app.n8n.cloud/webhook/e-bridge-interview-start"; // ← 変更前: .../webhook-test/... → 変更後: .../webhook/...
+    "https://n8n-main.sliplane.app/webhook/e-bridge-interview-start";
 
   /* =========================
      DOM
